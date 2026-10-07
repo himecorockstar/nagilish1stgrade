@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ナギリッシュ10 - Ver1.3.0</title>
+    <title>ナギリッシュ10 - Ver1.3.1</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -75,7 +75,6 @@
         .auth-btn { background: #e11d48; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
         .auth-status { font-size: 0.8rem; margin-top: 6px; font-weight: bold; }
 
-        /* スマホ初期設定案内および権利表記の枠デザイン */
         .notice-box { margin-top: 16px; background: #fffbeb; border: 2px solid #f59e0b; padding: 12px; border-radius: 12px; text-align: left; }
         .notice-title { font-size: 0.9rem; font-weight: bold; color: #b45309; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
         .notice-text { font-size: 0.8rem; color: #78350f; line-height: 1.4; }
@@ -148,7 +147,7 @@
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
             <div class="streak-badge">🔥 自由進行型</div>
-            <div class="version-label">Ver1.3.0</div>
+            <div class="version-label">Ver1.3.1</div>
         </div>
     </header>
 
@@ -185,7 +184,6 @@
                 <div class="auth-status" id="authStatusText"></div>
             </div>
 
-            <!-- スマホ（Android/iPhone）初期設定のお知らせ枠 -->
             <div class="notice-box">
                 <div class="notice-title">
                     <span>📱 Android / iPhoneをご利用の方へ</span>
@@ -195,7 +193,6 @@
                 </div>
             </div>
 
-            <!-- 著作権・免責事項の法的表記枠 -->
             <div class="legal-box">
                 <div class="legal-text">
                     この英語学習システムnagilishは、非売品です。内容はNEW CROWN１中学英語１年生向け平成９年度版に準拠しています。個人用目的ですので著作権には抵触していません。文章読上げなど教科書の中身を表示する場合はパスワードが必要です。また一切の責任は負いかねます。
@@ -282,13 +279,11 @@
     </div>
 </div>
 
-<!-- 分割した3つの辞書ファイルを順番に読み込み -->
 <script src="dict-start-u2.js"></script>
 <script src="dict-u3-u5.js"></script>
 <script src="dict-u6-u8.js"></script>
 
 <script>
-    // --- パスワード認証ロジック ---
     const TARGET_PASSWORD = "nikaidou";
     const AUTH_STORAGE_KEY = "nagi_english_auth_month";
 
@@ -363,7 +358,6 @@
         initAuthSystem();
     });
 
-    // --- 音声・サウンド処理 ---
     let audioCtx = null;
     function getAudioContext() {
         if (!audioCtx) {
@@ -436,7 +430,6 @@
         else if (rate === 1.3) document.getElementById('speedFast').classList.add('active-speed');
     }
 
-    // --- 熟語特訓ロジック（スワイプ対応） ---
     let idiomQueue = [];
     let currentIdiomIndex = 0;
 
@@ -519,8 +512,6 @@
         nextIdiomCard();
     }
 
-
-    // --- 単語特訓ロジック（10語セット・スワイプ対応） ---
     let queue = [];
     let currentIndexInQueue = 0;
     let stats = { perfect: 0, drilled: 0 };
@@ -583,7 +574,8 @@
 
                 <div class="type-box">
                     <div style="font-size: 0.9rem; font-weight: bold; color: var(--text-sub);">👇 英語の綴りを入力</div>
-                    <input type="text" id="spellInput" class="spell-input" placeholder="例: apple" autocomplete="off" autocapitalize="off">
+                    <!-- プレースホルダーから「apple」を完全に削除してスッキリさせました -->
+                    <input type="text" id="spellInput" class="spell-input" placeholder="入力してください" autocomplete="off" autocapitalize="off">
                 </div>
 
                 <div class="example-box">
@@ -699,8 +691,6 @@
         }
     }
 
-
-    // --- 画面タッチスワイプ検知（スマホ対応） ---
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -728,8 +718,6 @@
         }
     }
 
-
-    // --- 全文リーディングロジック ---
     let isReadingAll = false;
 
     function startFullReader() {
@@ -783,6 +771,8 @@
 
     function setActiveHighlight(index) {
         clearActiveHighlight();
+        const el = document.getElementById(`sentenceRow${index}`);
+        if (el) el.classList.add('active-reading');
     }
 
     function clearActiveHighlight() {
