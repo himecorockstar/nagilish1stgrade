@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ナギリッシュ10 - Ver1.2.0</title>
+    <title>ナギリッシュ10 - Ver1.3.0</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -75,6 +75,14 @@
         .auth-btn { background: #e11d48; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
         .auth-status { font-size: 0.8rem; margin-top: 6px; font-weight: bold; }
 
+        /* スマホ初期設定案内および権利表記の枠デザイン */
+        .notice-box { margin-top: 16px; background: #fffbeb; border: 2px solid #f59e0b; padding: 12px; border-radius: 12px; text-align: left; }
+        .notice-title { font-size: 0.9rem; font-weight: bold; color: #b45309; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+        .notice-text { font-size: 0.8rem; color: #78350f; line-height: 1.4; }
+
+        .legal-box { margin-top: 12px; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 10px; text-align: left; }
+        .legal-text { font-size: 0.72rem; color: var(--text-sub); line-height: 1.4; }
+
         .progress-bar-container { background: #ffe4e6; height: 8px; border-radius: 4px; overflow: hidden; width: 100%; margin-top: 8px; }
         .progress-bar { background: #e11d48; height: 100%; width: 0%; transition: width 0.3s; }
         .step-indicator { font-size: 0.85rem; color: #e11d48; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -140,7 +148,7 @@
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
             <div class="streak-badge">🔥 自由進行型</div>
-            <div class="version-label">Ver1.2.0</div>
+            <div class="version-label">Ver1.3.0</div>
         </div>
     </header>
 
@@ -148,7 +156,7 @@
     <div id="homeScreen" class="screen active">
         <div class="card welcome-box">
             <h2>こんにちは、なぎさん！</h2>
-            <p>分割ファイルでさらに快適になったよ！</p>
+            <p>10語のコンセプトでサクサク進めよう！</p>
             
             <div class="menu-grid">
                 <button class="btn-menu" onclick="startTraining()">
@@ -175,6 +183,23 @@
                     <button class="auth-btn" onclick="checkAuthPassword()">解除</button>
                 </div>
                 <div class="auth-status" id="authStatusText"></div>
+            </div>
+
+            <!-- スマホ（Android/iPhone）初期設定のお知らせ枠 -->
+            <div class="notice-box">
+                <div class="notice-title">
+                    <span>📱 Android / iPhoneをご利用の方へ</span>
+                </div>
+                <div class="notice-text">
+                    音声が出ない場合は、右上のメニュー等から**「デフォルトのブラウザで開く」**を選んでお試しください。
+                </div>
+            </div>
+
+            <!-- 著作権・免責事項の法的表記枠 -->
+            <div class="legal-box">
+                <div class="legal-text">
+                    この英語学習システムnagilishは、非売品です。内容はNEW CROWN１中学英語１年生向け平成９年度版に準拠しています。個人用目的ですので著作権には抵触していません。文章読上げなど教科書の中身を表示する場合はパスワードが必要です。また一切の責任は負いかねます。
+                </div>
             </div>
         </div>
     </div>
@@ -752,14 +777,12 @@
 
         speakText(fullReaderData[currentPlayIndex].en, () => {
             currentPlayIndex++;
-            setTimeout(() => { if (isReadingAll) playNextSentenceInSuccess(); }, 400);
+            setTimeout(() => { if (isReadingAll) playNextSentenceInSequence(); }, 400);
         });
     }
 
     function setActiveHighlight(index) {
         clearActiveHighlight();
-        const el = document.getElementById(`sentenceRow${index}`);
-        if (el) el.classList.add('active-reading');
     }
 
     function clearActiveHighlight() {
