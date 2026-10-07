@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ナギリッシュ10 - Ver2.0.0</title>
+    <title>ナギリッシュ10 - Ver2.1.0</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -134,9 +134,6 @@
 
         .example-box { background: #fff9fa; border: 1px solid #fecdd3; padding: 12px; border-radius: 10px; font-size: 0.9rem; color: var(--text-sub); margin-bottom: 16px; text-align: left; line-height: 1.5; }
         .highlight-word { color: #e11d48; font-weight: bold; background: #ffe4e6; padding: 2px 6px; border-radius: 4px; }
-
-        .result-box { display: flex; flex-direction: column; gap: 12px; text-align: left; background: #fff9fa; border: 1px solid #fecdd3; padding: 16px; border-radius: 12px; margin: 10px 0; }
-        .result-row { display: flex; justify-content: space-between; font-size: 0.95rem; }
     </style>
 </head>
 <body id="bodyRoot">
@@ -145,8 +142,8 @@
     <header>
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
-            <div class="streak-badge">🔥 3択スマート版</div>
-            <div class="version-label">Ver2.0.0</div>
+            <div class="streak-badge">🔥 エンドレス連続版</div>
+            <div class="version-label">Ver2.1.0</div>
         </div>
     </header>
 
@@ -154,11 +151,11 @@
     <div id="homeScreen" class="screen active">
         <div class="card welcome-box">
             <h2>こんにちは、なぎさん！</h2>
-            <p>全700単語完全制覇を目指して進もう！</p>
+            <p>全700単語へ向けてエンドレスで進もう！</p>
             
             <div class="menu-grid">
                 <button class="btn-menu" onclick="startTraining(0)">
-                    <span>🎯 単語スパルタ特訓（次の10語・3択）</span>
+                    <span>🎯 単語スパルタ特訓（エンドレス3択）</span>
                     <span>▶</span>
                 </button>
                 <button class="btn-menu" onclick="openDictList()">
@@ -273,23 +270,6 @@
                 <button class="btn" onclick="playAllSentences()">▶ 全文連続再生</button>
                 <button class="btn btn-sub" onclick="stopSpeech()">⏹ 停止</button>
             </div>
-            <button class="btn btn-sub" style="margin-top: 8px;" onclick="goHome()">メニューに戻る</button>
-        </div>
-    </div>
-
-    <!-- 完了画面 -->
-    <div id="finishScreen" class="screen">
-        <div class="card">
-            <h2 style="color: var(--accent); margin-bottom: 8px;">🎉 10語の特訓完了！</h2>
-            <p style="color: var(--text-sub); font-size: 0.9rem;">この調子でどんどん進もう！</p>
-            
-            <div class="result-box">
-                <div class="result-row"><span>クリア項目</span><strong id="resTotal">10 項目</strong></div>
-                <div class="result-row"><span>一発クリア</span><strong style="color: var(--accent);" id="resPerfect">0 項目</strong></div>
-                <div class="result-row"><span>特訓克服</span><strong style="color: var(--warning);" id="resDrilled">0 項目</strong></div>
-            </div>
-
-            <button class="btn btn-next" style="display: block; margin-top: 0;" onclick="startNextBatch()">次の10語へ進む ➡</button>
             <button class="btn btn-sub" style="margin-top: 8px;" onclick="goHome()">メニューに戻る</button>
         </div>
     </div>
@@ -480,7 +460,7 @@
     function showIdiomCard() {
         if (currentIdiomIndex < 0) currentIdiomIndex = 0;
         if (currentIdiomIndex >= idiomQueue.length) {
-            showFinishScreen();
+            goHome();
             return;
         }
 
@@ -549,7 +529,6 @@
 
     let queue = [];
     let currentIndexInQueue = 0;
-    let stats = { perfect: 0, drilled: 0 };
     let currentItemHasError = false;
 
     function startTraining(startIndex) {
@@ -559,6 +538,7 @@
         const batchItems = textbookDictionary.slice(startIndex, startIndex + 10);
         
         if (batchItems.length === 0) {
+            // 最後まで行ったら最初に戻る
             currentBatchStartIndex = 0;
             startTraining(0);
             return;
@@ -566,8 +546,6 @@
 
         queue = batchItems.map(item => ({ ...item, phase: 'meaning', spellingFailCount: 0 }));
         currentIndexInQueue = 0;
-        stats.perfect = 0;
-        stats.drilled = 0;
         currentItemHasError = false;
 
         document.getElementById('homeScreen').classList.remove('active');
@@ -575,20 +553,16 @@
         showCurrentCard();
     }
 
-    function startNextBatch() {
-        currentBatchStartIndex += 10;
-        if (currentBatchStartIndex >= textbookDictionary.length) {
-            currentBatchStartIndex = 0;
-            alert("全単語1周クリアおめでとうございます！最初に戻って復習します。");
-        }
-        document.getElementById('finishScreen').classList.remove('active');
-        startTraining(currentBatchStartIndex);
-    }
-
     function showCurrentCard() {
         if (currentIndexInQueue < 0) currentIndexInQueue = 0;
+        
+        // 10問が終わったら、完了画面を挟まずに次の10語のバッチへシームレスに突入！
         if (currentIndexInQueue >= queue.length) {
-            showFinishScreen();
+            currentBatchStartIndex += 10;
+            if (currentBatchStartIndex >= textbookDictionary.length) {
+                currentBatchStartIndex = 0; // 全単語一周したら最初へループ
+            }
+            startTraining(currentBatchStartIndex);
             return;
         }
 
@@ -686,11 +660,6 @@
         const currentItem = queue[currentIndexInQueue];
 
         if (inputVal === currentItem.en.toLowerCase()) {
-            if (!currentItemHasError && currentItem.spellingFailCount === 0) {
-                stats.perfect++;
-            } else {
-                stats.drilled++;
-            }
             currentItemHasError = false;
             currentIndexInQueue++;
             showCurrentCard();
@@ -734,7 +703,6 @@
             }
         }
         if (allDone) {
-            stats.drilled++;
             setTimeout(() => {
                 currentItemHasError = false;
                 currentIndexInQueue++;
@@ -834,23 +802,12 @@
         }
     }
 
-    function showFinishScreen() {
-        document.getElementById('trainingScreen').classList.remove('active');
-        document.getElementById('idiomScreen').classList.remove('active');
-        document.getElementById('finishScreen').classList.add('active');
-
-        document.getElementById('resTotal').innerText = `${queue.length} 項目`;
-        document.getElementById('resPerfect').innerText = `${stats.perfect} 項目`;
-        document.getElementById('resDrilled').innerText = `${stats.drilled} 項目`;
-    }
-
     function goHome() {
         stopSpeech();
         document.getElementById('trainingScreen').classList.remove('active');
         document.getElementById('idiomScreen').classList.remove('active');
         document.getElementById('dictListScreen').classList.remove('active');
         document.getElementById('readerScreen').classList.remove('active');
-        document.getElementById('finishScreen').classList.remove('active');
         document.getElementById('homeScreen').classList.add('active');
         initAuthSystem();
     }
