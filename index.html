@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ナギリッシュ10 - スワイプ対応版</title>
+    <title>ナギリッシュ10 - Ver1.2.0</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -56,7 +56,6 @@
         .btn-next { background: var(--accent); color: white; border: none; padding: 14px 24px; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; box-shadow: 0 4px 12px rgba(16,185,129,0.2); margin-top: 12px; display: none; }
         .btn-next:hover { background: #059669; }
 
-        /* 横スワイプナビゲーション（前へ・次へボタン） */
         .swipe-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .nav-arrow-btn { background: #ffe4e6; color: #e11d48; border: 1px solid #fecdd3; padding: 6px 14px; border-radius: 8px; font-weight: bold; font-size: 0.85rem; cursor: pointer; }
         .nav-arrow-btn:hover { background: #fecdd3; }
@@ -141,7 +140,7 @@
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
             <div class="streak-badge">🔥 自由進行型</div>
-            <div class="version-label">Ver1.1.0</div>
+            <div class="version-label">Ver1.2.0</div>
         </div>
     </header>
 
@@ -149,7 +148,7 @@
     <div id="homeScreen" class="screen active">
         <div class="card welcome-box">
             <h2>こんにちは、なぎさん！</h2>
-            <p>10語のコンセプトでサクサク進めよう！</p>
+            <p>分割ファイルでさらに快適になったよ！</p>
             
             <div class="menu-grid">
                 <button class="btn-menu" onclick="startTraining()">
@@ -180,10 +179,9 @@
         </div>
     </div>
 
-    <!-- 単語学習画面（横スワイプ＆10語対応） -->
+    <!-- 単語学習画面 -->
     <div id="trainingScreen" class="screen">
         <div class="card">
-            <!-- スワイプナビゲーション（前へ・次へボタン） -->
             <div class="swipe-nav">
                 <button class="nav-arrow-btn" onclick="prevCard()">◀ 前へ</button>
                 <span id="textbookBadge" class="textbook-badge" style="margin-bottom:0;">📚 P.10</span>
@@ -259,7 +257,10 @@
     </div>
 </div>
 
-<script src="dictionary.js"></script>
+<!-- 分割した3つの辞書ファイルを順番に読み込み -->
+<script src="dict-start-u2.js"></script>
+<script src="dict-u3-u5.js"></script>
+<script src="dict-u6-u8.js"></script>
 
 <script>
     // --- パスワード認証ロジック ---
@@ -502,7 +503,6 @@
 
     function startTraining() {
         getAudioContext();
-        // 10語のコンセプトに合わせて、教科書データから最大10語を取得
         queue = textbookDictionary.slice(0, 10).map(item => ({ ...item, phase: 'meaning', spellingFailCount: 0 }));
         currentIndexInQueue = 0;
         stats.perfect = 0;
@@ -690,16 +690,14 @@
     });
 
     function handleSwipeGesture() {
-        const threshold = 50; // スワイプと判定する最低移動距離
+        const threshold = 50;
         const trainingActive = document.getElementById('trainingScreen').classList.contains('active');
         const idiomActive = document.getElementById('idiomScreen').classList.contains('active');
 
         if (touchEndX + threshold < touchStartX) {
-            // 左スワイプ ➔ 次へ
             if (trainingActive) nextCard();
             if (idiomActive) nextIdiomCard();
         } else if (touchEndX > touchStartX + threshold) {
-            // 右スワイプ ➔ 前へ
             if (trainingActive) prevCard();
             if (idiomActive) prevIdiomCard();
         }
@@ -754,7 +752,7 @@
 
         speakText(fullReaderData[currentPlayIndex].en, () => {
             currentPlayIndex++;
-            setTimeout(() => { if (isReadingAll) playNextSentenceInSequence(); }, 400);
+            setTimeout(() => { if (isReadingAll) playNextSentenceInSuccess(); }, 400);
         });
     }
 
