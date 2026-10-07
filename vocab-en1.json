@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "textbookId": "NEW CROWN 1-01",
+    "page": "P. 10",
+    "unit": "Start - Part 1",
+    "en": "hello",
+    "correctMeaning": "こんにちは",
+    "choices": ["こんにちは", "さようなら", "ありがとう"],
+    "ex": "Hello, nice to meet you."
+  },
+  {
+    "id": 2,
+    "textbookId": "NEW CROWN 1-02",
+    "page": "P. 12",
+    "unit": "Start - Part 2",
+    "en": "I",
+    "correctMeaning": "私は、僕",
+    "choices": ["私は、僕", "あなた", "彼"],
+    "ex": "I am a student."
+  },
+  {
+    "id": 3,
+    "textbookId": "NEW CROWN 1-03",
+    "page": "P. 14",
+    "unit": "Unit 1 - Part 1",
+    "en": "school",
+    "correctMeaning": "学校",
+    "choices": ["学校", "病院", "公園"],
+    "ex": "We go to school every day."
+  },
+  {
+    "id": 4,
+    "textbookId": "NEW CROWN 1-04",
+    "page": "P. 16",
+    "unit": "Unit 1 - Part 1",
+    "en": "teacher",
+    "correctMeaning": "先生、教師",
+    "choices": ["先生、教師", "医者", "生徒"],
+    "ex": "She is our English teacher."
+  },
+  {
+    "id": 5,
+    "textbookId": "NEW CROWN 1-05",
+    "page": "P. 18",
+    "unit": "Unit 1 - Part 2",
+    "en": "friend",
+    "correctMeaning": "友達",
+    "choices": ["先生", "友達", "家族"],
+    "ex": "He is my best friend."
+  },
+  {
+    "id": 6,
+    "textbookId": "NEW CROWN 1-06",
+    "page": "P. 20",
+    "unit": "Unit 1 - Part 3",
+    "en": "Japan",
+    "correctMeaning": "日本",
+    "choices": ["日本", "アメリカ", "イギリス"],
+    "ex": "I live in Japan."
+  },
+  {
+    "id": 7,
+    "textbookId": "NEW CROWN 1-07",
+    "page": "P. 22",
+    "unit": "Unit 2 - Part 1",
+    "en": "book",
+    "correctMeaning": "本",
+    "choices": ["本", "机", "椅子"],
+    "ex": "This is an English book."
+  },
+  {
+    "id": 8,
+    "textbookId": "NEW CROWN 1-08",
+    "page": "P. 24",
+    "unit": "Unit 2 - Part 1",
+    "en": "pen",
+    "correctMeaning": "ペン、筆記用具",
+    "choices": ["ペン、筆記用具", "消しゴム", "定規"],
+    "ex": "Is this your pen?"
+  },
+  {
+    "id": 9,
+    "textbookId": "NEW CROWN 1-09",
+    "page": "P. 26",
+    "unit": "Unit 2 - Part 2",
+    "en": "bag",
+    "correctMeaning": "バッグ、かばん",
+    "choices": ["バッグ、かばん", "帽子", "靴"],
+    "ex": "That is my red bag."
+  },
+  {
+    "id": 10,
+    "textbookId": "NEW CROWN 1-10",
+    "page": "P. 28",
+    "unit": "Unit 2 - Part 3",
+    "en": "science",
+    "correctMeaning": "科学、理科",
+    "choices": ["科学、理科", "数学", "音楽"],
+    "ex": "I like science very much."
+  },
+  {
+    "id": 11,
+    "textbookId": "NEW CROWN 1-11",
+    "page": "P. 32",
+    "unit": "Unit 3 - Part 1",
+    "en": "soccer",
+    "correctMeaning": "サッカー",
+    "choices": ["サッカー", "テニス", "野球"],
+    "ex": "Do you play soccer?"
+  },
+  {
+    "id": 12,
+    "textbookId": "NEW CROWN 1-12",
+    "page": "P. 34",
+    "unit": "Unit 3 - Part 1",
+    "en": "music",
+    "correctMeaning": "音楽",
+    "choices": ["音楽", "美術", "英語"],
+    "ex": "I listen to music."
+  },
+  {
+    "id": 13,
+    "textbookId": "NEW CROWN 1-13",
+    "page": "P. 38",
+    "unit": "Unit 4 - Part 1",
+    "en": "bike",
+    "correctMeaning": "自転車",
+    "choices": ["自転車", "車", "電車"],
+    "ex": "He rides a bike."
+  },
+  {
+    "id": 14,
+    "textbookId": "NEW CROWN 1-14",
+    "page": "P. 42",
+    "unit": "Unit 4 - Part 2",
+    "en": "food",
+    "correctMeaning": "食べ物",
+    "choices": ["食べ物", "飲み物", "野菜"],
+    "ex": "Japanese food is good."
+  },
+  {
+    "id": 15,
+    "textbookId": "NEW CROWN 1-15",
+    "page": "P. 48",
+    "unit": "Unit 5 - Part 1",
+    "en": "time",
+    "correctMeaning": "時間",
+    "choices": ["時間", "時計", "日"],
+    "ex": "What time is it?"
+  },
+  {
+    "id": 16,
+    "textbookId": "NEW CROWN 1-16",
+    "page": "P. 52",
+    "unit": "Unit 6 - Part 1",
+    "en": "swim",
+    "correctMeaning": "泳ぐ",
+    "choices": ["泳ぐ", "走る", "跳ぶ"],
+    "ex": "I can swim in the pool."
+  },
+  {
+    "id": 17,
+    "textbookId": "NEW CROWN 1-17",
+    "page": "P. 56",
+    "unit": "Unit 6 - Part 2",
+    "en": "guitar",
+    "correctMeaning": "ギター",
+    "choices": ["ギター", "ピアノ", "バイオリン"],
+    "ex": "Can you play the guitar?"
+  },
+  {
+    "id": 18,
+    "textbookId": "NEW CROWN 1-18",
+    "page": "P. 65",
+    "unit": "Unit 7 - Part 1",
+    "en": "yesterday",
+    "correctMeaning": "昨日",
+    "choices": ["昨日", "今日", "明日"],
+    "ex": "I was busy yesterday."
+  },
+  {
+    "id": 19,
+    "textbookId": "NEW CROWN 1-19",
+    "page": "P. 72",
+    "unit": "Unit 8 - Part 1",
+    "en": "summer",
+    "correctMeaning": "夏",
+    "choices": ["夏", "春", "冬"],
+    "ex": "I like summer."
+  },
+  {
+    "id": 20,
+    "textbookId": "NEW CROWN 1-20",
+    "page": "P. 80",
+    "unit": "Unit 8 - Part 2",
+    "en": "doctor",
+    "correctMeaning": "医者、医師",
+    "choices": ["医者、医師", "先生", "歌手"],
+    "ex": "He wants to be a doctor."
+  }
+]
