@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ナギリッシュ10 - Ver1.3.1</title>
+    <title>ナギリッシュ10 - Ver2.0.0</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -86,11 +86,10 @@
         .progress-bar { background: #e11d48; height: 100%; width: 0%; transition: width 0.3s; }
         .step-indicator { font-size: 0.85rem; color: #e11d48; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
         
-        .emoji-display { font-size: 2.5rem; margin: 4px 0; }
-        .word-display { font-size: 1.8rem; font-weight: bold; color: #e11d48; margin: 4px 0; cursor: pointer; }
+        .word-display { font-size: 2.2rem; font-weight: bold; color: #e11d48; margin: 12px 0; cursor: pointer; }
         
         .choices-container { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
-        .choice-btn { background: #f8fafc; border: 2px solid #cbd5e1; color: var(--text-main); padding: 12px; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; transition: all 0.1s; }
+        .choice-btn { background: #f8fafc; border: 2px solid #cbd5e1; color: var(--text-main); padding: 14px; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; transition: all 0.1s; }
         .choice-btn:hover { background: #e2e8f0; border-color: #e11d48; }
 
         .idiom-choice-btn { background: #fff9fa; border: 2px solid #fecdd3; color: var(--text-main); padding: 12px 14px; border-radius: 12px; font-size: 0.95rem; font-weight: bold; cursor: pointer; text-align: left; line-height: 1.4; transition: all 0.1s; }
@@ -146,8 +145,8 @@
     <header>
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
-            <div class="streak-badge">🔥 自由進行型</div>
-            <div class="version-label">Ver1.3.1</div>
+            <div class="streak-badge">🔥 3択スマート版</div>
+            <div class="version-label">Ver2.0.0</div>
         </div>
     </header>
 
@@ -155,12 +154,16 @@
     <div id="homeScreen" class="screen active">
         <div class="card welcome-box">
             <h2>こんにちは、なぎさん！</h2>
-            <p>10語のコンセプトでサクサク進めよう！</p>
+            <p>全700単語完全制覇を目指して進もう！</p>
             
             <div class="menu-grid">
-                <button class="btn-menu" onclick="startTraining()">
-                    <span>🎯 単語スパルタ特訓（10語セット）</span>
+                <button class="btn-menu" onclick="startTraining(0)">
+                    <span>🎯 単語スパルタ特訓（次の10語・3択）</span>
                     <span>▶</span>
+                </button>
+                <button class="btn-menu" onclick="openDictList()">
+                    <span>📖 辞書・全単語一覧（過去の復習）</span>
+                    <span>🔍</span>
                 </button>
                 <button class="btn-menu" onclick="startIdiomTraining()">
                     <span>🧠 熟語スパルタ特訓（10問5択）</span>
@@ -198,6 +201,18 @@
                     この英語学習システムnagilishは、非売品です。内容はNEW CROWN１中学英語１年生向け平成９年度版に準拠しています。個人用目的ですので著作権には抵触していません。文章読上げなど教科書の中身を表示する場合はパスワードが必要です。また一切の責任は負いかねます。
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 辞書・全単語一覧画面 -->
+    <div id="dictListScreen" class="screen">
+        <div class="card">
+            <h2 style="font-size: 1.2rem; color: #e11d48; margin-bottom: 8px;">📖 辞書・全単語一覧（復習モード）</h2>
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 12px;">タップして発音を聴いたり、過去の単語を振り返ろう！</p>
+
+            <div class="reader-scroll-box" id="dictScrollBox"></div>
+
+            <button class="btn btn-sub" style="margin-top: 12px;" onclick="goHome()">メニューに戻る</button>
         </div>
     </div>
 
@@ -265,8 +280,8 @@
     <!-- 完了画面 -->
     <div id="finishScreen" class="screen">
         <div class="card">
-            <h2 style="color: var(--accent); margin-bottom: 8px;">🎉 本日の特訓完了！</h2>
-            <p style="color: var(--text-sub); font-size: 0.9rem;">よく頑張りました！</p>
+            <h2 style="color: var(--accent); margin-bottom: 8px;">🎉 10語の特訓完了！</h2>
+            <p style="color: var(--text-sub); font-size: 0.9rem;">この調子でどんどん進もう！</p>
             
             <div class="result-box">
                 <div class="result-row"><span>クリア項目</span><strong id="resTotal">10 項目</strong></div>
@@ -274,7 +289,8 @@
                 <div class="result-row"><span>特訓克服</span><strong style="color: var(--warning);" id="resDrilled">0 項目</strong></div>
             </div>
 
-            <button class="btn" onclick="goHome()">メニューに戻る</button>
+            <button class="btn btn-next" style="display: block; margin-top: 0;" onclick="startNextBatch()">次の10語へ進む ➡</button>
+            <button class="btn btn-sub" style="margin-top: 8px;" onclick="goHome()">メニューに戻る</button>
         </div>
     </div>
 </div>
@@ -286,6 +302,7 @@
 <script>
     const TARGET_PASSWORD = "nikaidou";
     const AUTH_STORAGE_KEY = "nagi_english_auth_month";
+    let currentBatchStartIndex = 0;
 
     function initAuthSystem() {
         const now = new Date();
@@ -430,6 +447,24 @@
         else if (rate === 1.3) document.getElementById('speedFast').classList.add('active-speed');
     }
 
+    function openDictList() {
+        getAudioContext();
+        document.getElementById('homeScreen').classList.remove('active');
+        document.getElementById('dictListScreen').classList.add('active');
+
+        const scrollBox = document.getElementById('dictScrollBox');
+        scrollBox.innerHTML = '';
+
+        textbookDictionary.forEach((item, index) => {
+            scrollBox.innerHTML += `
+                <div class="sentence-row" onclick="speakText('${item.en}')">
+                    <div class="en-text">${item.en} 🔊</div>
+                    <div class="jp-text">意味：${item.correctMeaning} （${item.textbookId} - ${item.unit}）</div>
+                </div>
+            `;
+        });
+    }
+
     let idiomQueue = [];
     let currentIdiomIndex = 0;
 
@@ -517,9 +552,19 @@
     let stats = { perfect: 0, drilled: 0 };
     let currentItemHasError = false;
 
-    function startTraining() {
+    function startTraining(startIndex) {
         getAudioContext();
-        queue = textbookDictionary.slice(0, 10).map(item => ({ ...item, phase: 'meaning', spellingFailCount: 0 }));
+        currentBatchStartIndex = startIndex;
+        
+        const batchItems = textbookDictionary.slice(startIndex, startIndex + 10);
+        
+        if (batchItems.length === 0) {
+            currentBatchStartIndex = 0;
+            startTraining(0);
+            return;
+        }
+
+        queue = batchItems.map(item => ({ ...item, phase: 'meaning', spellingFailCount: 0 }));
         currentIndexInQueue = 0;
         stats.perfect = 0;
         stats.drilled = 0;
@@ -528,6 +573,16 @@
         document.getElementById('homeScreen').classList.remove('active');
         document.getElementById('trainingScreen').classList.add('active');
         showCurrentCard();
+    }
+
+    function startNextBatch() {
+        currentBatchStartIndex += 10;
+        if (currentBatchStartIndex >= textbookDictionary.length) {
+            currentBatchStartIndex = 0;
+            alert("全単語1周クリアおめでとうございます！最初に戻って復習します。");
+        }
+        document.getElementById('finishScreen').classList.remove('active');
+        startTraining(currentBatchStartIndex);
     }
 
     function showCurrentCard() {
@@ -554,7 +609,6 @@
             });
 
             content.innerHTML = `
-                <div class="emoji-display">${currentItem.emoji}</div>
                 <div class="word-display" onclick="speakText('${currentItem.en}')" title="タップして発音">🔊 ${currentItem.en}</div>
                 <div style="font-size: 0.9rem; color: var(--text-sub); margin-bottom: 8px;">正しい意味を選んでね</div>
                 <div class="choices-container">${choicesHtml}</div>
@@ -568,13 +622,11 @@
             const highlightedEx = currentItem.ex.replace(regex, '<span class="highlight-word">$1</span>');
 
             content.innerHTML = `
-                <div class="emoji-display">${currentItem.emoji}</div>
                 <div class="word-display" onclick="speakText('${currentItem.en}')">🔊 ${currentItem.en}</div>
                 <div style="font-size: 1.1rem; font-weight: bold; color: #10b981; margin: 4px 0;">意味：${currentItem.correctMeaning}</div>
 
                 <div class="type-box">
                     <div style="font-size: 0.9rem; font-weight: bold; color: var(--text-sub);">👇 英語の綴りを入力</div>
-                    <!-- プレースホルダーから「apple」を完全に削除してスッキリさせました -->
                     <input type="text" id="spellInput" class="spell-input" placeholder="入力してください" autocomplete="off" autocapitalize="off">
                 </div>
 
@@ -787,15 +839,16 @@
         document.getElementById('idiomScreen').classList.remove('active');
         document.getElementById('finishScreen').classList.add('active');
 
-        document.getElementById('resTotal').innerText = `10 項目`;
-        document.getElementById('resPerfect').innerText = `8 項目`;
-        document.getElementById('resDrilled').innerText = `2 項目`;
+        document.getElementById('resTotal').innerText = `${queue.length} 項目`;
+        document.getElementById('resPerfect').innerText = `${stats.perfect} 項目`;
+        document.getElementById('resDrilled').innerText = `${stats.drilled} 項目`;
     }
 
     function goHome() {
         stopSpeech();
         document.getElementById('trainingScreen').classList.remove('active');
         document.getElementById('idiomScreen').classList.remove('active');
+        document.getElementById('dictListScreen').classList.remove('active');
         document.getElementById('readerScreen').classList.remove('active');
         document.getElementById('finishScreen').classList.remove('active');
         document.getElementById('homeScreen').classList.add('active');

@@ -1,16 +1,19 @@
 // ==========================================
-// ナギリッシュ10 辞書データ 3/3 (Unit 6 〜 8 ＆ 全文データ)
+// ナギリッシュ10 辞書データ 3/3 (Unit 6 〜 8 ＆ 全文データ) [絵なし・3択仕様]
 // ==========================================
 
 const dictPart3 = [
-    { id: 13, textbookId: "NEW CROWN 1-13", page: "P. 52", unit: "Unit 6 - Part 1", emoji: "🏊", en: "swim", correctMeaning: "泳ぐ", choices: ["泳ぐ", "走る", "跳ぶ", "歩く"], ex: "I can swim in the pool." },
-    { id: 14, textbookId: "NEW CROWN 1-14", page: "P. 56", unit: "Unit 6 - Part 2", emoji: "🎸", en: "guitar", correctMeaning: "ギター", choices: ["ギター", "ピアノ", "バイオリン", "ドラム"], ex: "Can you play the guitar?" }
+    { id: 16, textbookId: "NEW CROWN 1-16", page: "P. 52", unit: "Unit 6 - Part 1", en: "swim", correctMeaning: "泳ぐ", choices: ["泳ぐ", "走る", "跳ぶ"], ex: "I can swim in the pool." },
+    { id: 17, textbookId: "NEW CROWN 1-17", page: "P. 56", unit: "Unit 6 - Part 2", en: "guitar", correctMeaning: "ギター", choices: ["ギター", "ピアノ", "バイオリン"], ex: "Can you play the guitar?" },
+    { id: 18, textbookId: "NEW CROWN 1-18", page: "P. 65", unit: "Unit 7 - Part 1", en: "yesterday", correctMeaning: "昨日", choices: ["昨日", "今日", "明日"], ex: "I was busy yesterday." },
+    { id: 19, textbookId: "NEW CROWN 1-19", page: "P. 72", unit: "Unit 8 - Part 1", en: "summer", correctMeaning: "夏", choices: ["夏", "春", "冬"], ex: "I like summer." },
+    { id: 20, textbookId: "NEW CROWN 1-20", page: "P. 80", unit: "Unit 8 - Part 2", en: "doctor", correctMeaning: "医者、医師", choices: ["医者、医師", "先生", "歌手"], ex: "He wants to be a doctor." }
 ];
 
 // 全ての単語データを合体させる
 const textbookDictionary = [...dictPart1, ...dictPart2, ...dictPart3];
 
-// 全文リーディングデータ（NEW CROWN 1 全Unit 完全網羅版）
+// 全文リーディングデータ
 const fullReaderData = [
     { id: 1, en: "Hello. I'm Kohei. Nice to meet you.", jp: "こんにちは。私はコーヘイです。はじめまして。" },
     { id: 2, en: "Hi, Kohei. I'm Kate. Nice to meet you, too.", jp: "やあ、コーヘイ。私はケイトです。こちらこそはじめまして。" },
