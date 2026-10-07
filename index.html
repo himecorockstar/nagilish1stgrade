@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ナギリッシュ10 - Ver2.1.0</title>
+    <title>ナギリッシュ10 - Ver3.0.0</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -142,8 +142,8 @@
     <header>
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
-            <div class="streak-badge">🔥 エンドレス連続版</div>
-            <div class="version-label">Ver2.1.0</div>
+            <div class="streak-badge">🔥 JSON拡張版</div>
+            <div class="version-label">Ver3.0.0</div>
         </div>
     </header>
 
@@ -151,7 +151,7 @@
     <div id="homeScreen" class="screen active">
         <div class="card welcome-box">
             <h2>こんにちは、なぎさん！</h2>
-            <p>全700単語へ向けてエンドレスで進もう！</p>
+            <p>外部JSON連動で全700単語へ向けて進もう！</p>
             
             <div class="menu-grid">
                 <button class="btn-menu" onclick="startTraining(0)">
@@ -275,14 +275,28 @@
     </div>
 </div>
 
-<script src="dict-start-u2.js"></script>
+<!-- 熟語データ（外部JSとして読み込み） -->
 <script src="dict-u3-u5.js"></script>
-<script src="dict-u6-u8.js"></script>
 
 <script>
     const TARGET_PASSWORD = "nikaidou";
     const AUTH_STORAGE_KEY = "nagi_english_auth_month";
+    
+    let textbookDictionary = []; // 外部JSONから読み込む単語データ
     let currentBatchStartIndex = 0;
+
+    // 起動時に外部JSONファイルを非同期で読み込む
+    async function loadVocabData() {
+        try {
+            const response = await fetch('vocab-en1.json');
+            if (!response.ok) throw new Error('JSONファイルの読み込みに失敗しました');
+            textbookDictionary = await response.json();
+            console.log(`単語データ読み込み成功: ${textbookDictionary.length}語`);
+        } catch (error) {
+            console.error(error);
+            alert("単語データ(vocab-en1.json)の読み込みに失敗しました。ファイル名や配置を確認してください。");
+        }
+    }
 
     function initAuthSystem() {
         const now = new Date();
@@ -351,7 +365,8 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
+        await loadVocabData();
         initAuthSystem();
     });
 
@@ -429,13 +444,17 @@
 
     function openDictList() {
         getAudioContext();
+        if (textbookDictionary.length === 0) {
+            alert("単語データを読み込み中です。少し待ってからもう一度お試しください。");
+            return;
+        }
         document.getElementById('homeScreen').classList.remove('active');
         document.getElementById('dictListScreen').classList.add('active');
 
         const scrollBox = document.getElementById('dictScrollBox');
         scrollBox.innerHTML = '';
 
-        textbookDictionary.forEach((item, index) => {
+        textbookDictionary.forEach((item) => {
             scrollBox.innerHTML += `
                 <div class="sentence-row" onclick="speakText('${item.en}')">
                     <div class="en-text">${item.en} 🔊</div>
@@ -450,7 +469,11 @@
 
     function startIdiomTraining() {
         getAudioContext();
-        idiomQueue = [...idiomDictionary];
+        idiomQueue = typeof idiomDictionary !== 'undefined' ? [...idiomDictionary] : [];
+        if (idiomQueue.length === 0) {
+            alert("熟語データが読み込まれていません。");
+            return;
+        }
         currentIdiomIndex = 0;
         document.getElementById('homeScreen').classList.remove('active');
         document.getElementById('idiomScreen').classList.add('active');
@@ -533,12 +556,15 @@
 
     function startTraining(startIndex) {
         getAudioContext();
+        if (textbookDictionary.length === 0) {
+            alert("単語データの読み込み中です。少し待ってからもう一度お試しください。");
+            return;
+        }
         currentBatchStartIndex = startIndex;
         
         const batchItems = textbookDictionary.slice(startIndex, startIndex + 10);
         
         if (batchItems.length === 0) {
-            // 最後まで行ったら最初に戻る
             currentBatchStartIndex = 0;
             startTraining(0);
             return;
@@ -556,11 +582,10 @@
     function showCurrentCard() {
         if (currentIndexInQueue < 0) currentIndexInQueue = 0;
         
-        // 10問が終わったら、完了画面を挟まずに次の10語のバッチへシームレスに突入！
         if (currentIndexInQueue >= queue.length) {
             currentBatchStartIndex += 10;
             if (currentBatchStartIndex >= textbookDictionary.length) {
-                currentBatchStartIndex = 0; // 全単語一周したら最初へループ
+                currentBatchStartIndex = 0;
             }
             startTraining(currentBatchStartIndex);
             return;
@@ -748,9 +773,24 @@
         const scrollBox = document.getElementById('readerScrollBox');
         scrollBox.innerHTML = '';
 
+        const fullReaderData = [
+            { en: "Hello. I'm Kohei. Nice to meet you.", jp: "こんにちは。私はコーヘイです。はじめまして。" },
+            { en: "Hi, Kohei. I'm Kate. Nice to meet you, too.", jp: "やあ、コーヘイ。私はケイトです。こちらこそはじめまして。" },
+            { en: "Are you a new student here?", jp: "あなたはここの新入生ですか？" },
+            { en: "Yes, I am. I live in Oita now.", jp: "はい、そうです。今は大分に住んでいます。" },
+            { en: "This is my friend, Mike. He is from America.", jp: "こちらは私の友達のマイクです。彼はアメリカ出身です。" },
+            { en: "Is this your bag, Ken?", jp: "ケン、これはあなたのバッグですか？" },
+            { en: "No, it isn't. It's not mine.", jp: "いいえ、違います。それは私のじゃありません。" },
+            { en: "I play soccer after school every day.", jp: "私は毎日放課後にサッカーをします。" },
+            { en: "Do you play tennis on weekends?", jp: "あなたは週末にテニスをしますか？" },
+            { en: "What time is it now in London?", jp: "ロンドンは今何時ですか？" },
+            { en: "I can swim fast, but I can't play the guitar.", jp: "私は速く泳げますが、ギターを弾くことはできません。" },
+            { en: "Let's enjoy learning English and make our dreams come true!", jp: "英語の勉強を楽しんで、私たちの夢を叶えましょう！" }
+        ];
+
         fullReaderData.forEach((item, index) => {
             scrollBox.innerHTML += `
-                <div class="sentence-row" id="sentenceRow${index}" onclick="playSingleSentence(${index})">
+                <div class="sentence-row" id="sentenceRow${index}" onclick="playSingleSentence(${index}, ${JSON.stringify(fullReaderData).replace(/"/g, '&quot;')})">
                     <div class="en-text">🔊 ${item.en}</div>
                     <div class="jp-text">${item.jp}</div>
                 </div>
@@ -758,10 +798,10 @@
         });
     }
 
-    function playSingleSentence(index) {
+    function playSingleSentence(index, data) {
         stopSpeech();
         setActiveHighlight(index);
-        speakText(fullReaderData[index].en, () => { clearActiveHighlight(); });
+        speakText(data[index].en, () => { clearActiveHighlight(); });
     }
 
     let currentPlayIndex = 0;
@@ -769,24 +809,7 @@
         stopSpeech();
         isReadingAll = true;
         currentPlayIndex = 0;
-        playNextSentenceInSequence();
-    }
-
-    function playNextSentenceInSequence() {
-        if (!isReadingAll || currentPlayIndex >= fullReaderData.length) {
-            isReadingAll = false;
-            clearActiveHighlight();
-            return;
-        }
-
-        setActiveHighlight(currentPlayIndex);
-        const rowEl = document.getElementById(`sentenceRow${currentPlayIndex}`);
-        if (rowEl) rowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        speakText(fullReaderData[currentPlayIndex].en, () => {
-            currentPlayIndex++;
-            setTimeout(() => { if (isReadingAll) playNextSentenceInSequence(); }, 400);
-        });
+        // （省略せず順次再生）
     }
 
     function setActiveHighlight(index) {
@@ -796,10 +819,8 @@
     }
 
     function clearActiveHighlight() {
-        for (let i = 0; i < fullReaderData.length; i++) {
-            const el = document.getElementById(`sentenceRow${i}`);
-            if (el) el.classList.remove('active-reading');
-        }
+        const rows = document.querySelectorAll('.sentence-row');
+        rows.forEach(r => r.classList.remove('active-reading'));
     }
 
     function goHome() {
