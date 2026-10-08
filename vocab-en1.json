@@ -698,8 +698,7 @@
     "correctMeaning": "楽しむ",
     "choices": ["楽しむ", "飽きる", "避ける"],
     "ex": "Enjoy your school life!"
-  }
-][
+  },
   {
     "id": 71,
     "textbookId": "NEW CROWN 1-71",
@@ -799,8 +798,7 @@
     "correctMeaning": "年",
     "choices": ["年", "月", "週"],
     "ex": "Happy New Year!"
-  }
-][
+  },
   {
     "id": 141,
     "textbookId": "NEW CROWN 1-141",
@@ -900,8 +898,7 @@
     "correctMeaning": "米、ご飯",
     "choices": ["米、ご飯", "パン", "麦"],
     "ex": "Japanese eat rice."
-  }
-][
+  },
   {
     "id": 211,
     "textbookId": "NEW CROWN 1-211",
@@ -1001,8 +998,7 @@
     "correctMeaning": "長い",
     "choices": ["長い", "短い", "新しい"],
     "ex": "She has long hair."
-  }
-][
+  },
   {
     "id": 281,
     "textbookId": "NEW CROWN 1-281",
@@ -1102,8 +1098,7 @@
     "correctMeaning": "忙しい",
     "choices": ["忙しい", "暇な", "疲れた"],
     "ex": "Teachers are very busy."
-  }
-][
+  },
   {
     "id": 361,
     "textbookId": "NEW CROWN 1-361",
@@ -1203,8 +1198,7 @@
     "correctMeaning": "助ける、手伝う",
     "choices": ["助ける、手伝う", "邪魔する", "見る"],
     "ex": "Can you help me?"
-  }
-][
+  },
   {
     "id": 441,
     "textbookId": "NEW CROWN 1-441",
@@ -1304,8 +1298,7 @@
     "correctMeaning": "町",
     "choices": ["町", "村", "国"],
     "ex": "This is a quiet town."
-  }
-][
+  },
   {
     "id": 521,
     "textbookId": "NEW CROWN 1-521",
@@ -2861,7 +2854,8 @@
     "textbookId": "NEW CROWN 1-676",
     "page": "P. 332",
     "unit": "Final Grand Finale",
-    "en": "sure",    "correctMeaning": "確信して、もちろん",
+    "en": "sure",
+    "correctMeaning": "確信して、もちろん",
     "choices": ["確信して、もちろん", "たぶん", "無理な"],
     "ex": "Are you sure about that?"
   },
