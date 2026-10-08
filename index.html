@@ -142,7 +142,7 @@
     <header>
         <h1>📖 ナギリッシュ10</h1>
         <div class="header-right">
-            <div class="streak-badge">🔥 JSON拡張版</div>
+            <div class="streak-badge">🔥 全700語完全版</div>
             <div class="version-label">Ver3.0.0</div>
         </div>
     </header>
@@ -151,7 +151,7 @@
     <div id="homeScreen" class="screen active">
         <div class="card welcome-box">
             <h2>こんにちは、なぎさん！</h2>
-            <p>外部JSON連動で全700単語へ向けて進もう！</p>
+            <p>全700単語の外部JSON連動スパルタ特訓へようこそ！</p>
             
             <div class="menu-grid">
                 <button class="btn-menu" onclick="startTraining(0)">
@@ -282,10 +282,9 @@
     const TARGET_PASSWORD = "nikaidou";
     const AUTH_STORAGE_KEY = "nagi_english_auth_month";
     
-    let textbookDictionary = []; // 外部JSONから読み込む単語データ
+    let textbookDictionary = []; 
     let currentBatchStartIndex = 0;
 
-    // 起動時に外部JSONファイルを非同期で読み込む
     async function loadVocabData() {
         try {
             const response = await fetch('vocab-en1.json');
@@ -345,7 +344,7 @@
             initAuthSystem();
         } else {
             playErrorSound();
-            statusText.innerText = '❌ 合言葉が違います（ヒント：先輩の名前）';
+            statusText.innerText = '❌ 合言葉が違います';
             const inputEl = document.getElementById('authInput');
             inputEl.classList.add('input-error');
             setTimeout(() => inputEl.classList.remove('input-error'), 400);
@@ -361,7 +360,7 @@
             startFullReader();
         } else {
             playErrorSound();
-            alert("🔒 この機能を使うには、ホーム画面一番下にある今月の合言葉（nikaidou）を入力してください。");
+            alert("🔒 この機能を使うには、ホーム画面一番下にある今月の合言葉を入力してください。");
         }
     }
 
@@ -557,7 +556,7 @@
     function startTraining(startIndex) {
         getAudioContext();
         if (textbookDictionary.length === 0) {
-            alert("単語データの読み込み中です。少し待ってからもう一度お試しください。");
+            alert("単語データを読み込み中です。少し待ってからもう一度お試しください。");
             return;
         }
         currentBatchStartIndex = startIndex;
@@ -802,14 +801,6 @@
         stopSpeech();
         setActiveHighlight(index);
         speakText(data[index].en, () => { clearActiveHighlight(); });
-    }
-
-    let currentPlayIndex = 0;
-    function playAllSentences() {
-        stopSpeech();
-        isReadingAll = true;
-        currentPlayIndex = 0;
-        // （省略せず順次再生）
     }
 
     function setActiveHighlight(index) {
